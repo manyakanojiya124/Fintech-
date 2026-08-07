@@ -59,14 +59,7 @@ export function Navbar() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">Sign in</Link>
-            </Button>
-            <Button variant="secondary" size="sm" asChild>
-              <Link href="/dashboard">
-                <LayoutDashboard className="h-3.5 w-3.5" /> Dashboard
-              </Link>
-            </Button>
+            
             <Button size="sm" onClick={openBookDemo} aria-haspopup="dialog">
               Book a demo
               <ArrowUpRight className="h-3.5 w-3.5" />
