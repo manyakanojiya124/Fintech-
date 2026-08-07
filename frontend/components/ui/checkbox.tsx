@@ -4,34 +4,54 @@ import * as React from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface CheckboxProps {
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
+export interface CheckboxProps {
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
   id?: string;
-  className?: string;
+  disabled?: boolean;
   "aria-label"?: string;
+  className?: string;
 }
 
-function Checkbox({ checked, onCheckedChange, id, className, ...rest }: CheckboxProps) {
+export function Checkbox({
+  checked: controlled,
+  defaultChecked = false,
+  onCheckedChange,
+  id,
+  disabled,
+  className,
+  ...rest
+}: CheckboxProps) {
+  const isControlled = controlled !== undefined;
+  const [internal, setInternal] = React.useState(defaultChecked);
+  const checked = isControlled ? controlled : internal;
+
   return (
     <button
       type="button"
       role="checkbox"
-      aria-checked={checked}
       id={id}
-      onClick={() => onCheckedChange(!checked)}
+      aria-checked={checked}
+      aria-label={rest["aria-label"]}
+      disabled={disabled}
+      onClick={() => {
+        if (disabled) return;
+        const next = !checked;
+        if (!isControlled) setInternal(next);
+        onCheckedChange?.(next);
+      }}
       className={cn(
-        "flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors focus-ring",
+        "grid h-[18px] w-[18px] shrink-0 place-items-center rounded-md border transition-colors",
+        "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue/15",
         checked
-          ? "border-orange bg-orange text-white"
-          : "border-ink/15 bg-transparent hover:border-ink/30",
+          ? "border-blue bg-blue text-white"
+          : "border-line bg-white text-transparent hover:border-blue/40",
+        disabled && "cursor-not-allowed opacity-50",
         className
       )}
-      {...rest}
     >
-      {checked && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
+      <Check className="h-3 w-3" strokeWidth={3} />
     </button>
   );
 }
-
-export { Checkbox };

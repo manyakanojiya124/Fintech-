@@ -4,32 +4,29 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-all duration-300 ease-out focus-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue/15 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 disabled:active:scale-100",
   {
     variants: {
       variant: {
         primary:
-          "bg-orange text-white hover:bg-orange-dim shadow-[0_8px_20px_-6px_rgba(255,90,31,0.55)] hover:shadow-[0_10px_28px_-6px_rgba(255,90,31,0.65)] hover:-translate-y-0.5",
+          "bg-blue text-white shadow-sm hover:bg-blue-700 hover:shadow-card-hover",
         secondary:
-          "bg-transparent text-ink border border-ink/15 hover:border-ink/30 hover:bg-subtle hover:-translate-y-0.5",
-        invert:
-          "bg-white text-ink hover:bg-white/90 hover:-translate-y-0.5 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.25)]",
-        ghost: "bg-transparent text-mist hover:text-ink hover:bg-subtle",
-        navy:
-          "bg-navy text-white hover:bg-navy-dim shadow-[0_8px_20px_-6px_rgba(27,36,55,0.4)] hover:-translate-y-0.5",
-        outlineInvert:
-          "bg-transparent text-white border border-white/25 hover:border-white/50 hover:bg-white/10 hover:-translate-y-0.5",
+          "border border-blue/30 bg-white text-blue hover:border-blue hover:bg-blue-50",
+        outline:
+          "border border-line bg-white text-ink hover:border-ink/25 hover:bg-subtle",
+        ghost: "bg-transparent text-mist hover:bg-subtle hover:text-ink",
+        danger: "bg-red text-white shadow-sm hover:bg-red-600 hover:shadow-card-hover",
+        dark: "bg-ink text-white hover:bg-ink/90",
+        link: "p-0 h-auto text-blue hover:text-blue-700",
       },
       size: {
-        sm: "h-9 px-4 text-xs",
-        md: "h-11 px-6",
-        lg: "h-14 px-8 text-base",
+        sm: "h-9 px-4 text-[13px]",
+        md: "h-10 px-5",
+        lg: "h-12 px-6 text-[15px]",
+        icon: "h-10 w-10",
       },
     },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-    },
+    defaultVariants: { variant: "primary", size: "md" },
   }
 );
 

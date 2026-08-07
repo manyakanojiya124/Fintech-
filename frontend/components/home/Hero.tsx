@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, CalendarCheck, TrendingUp } from "lucide-react";
+import { ArrowUpRight, CalendarCheck, Sparkles, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { CountUp } from "@/components/home/CountUp";
-import gsap from "gsap";
+import { DashboardPreview } from "@/components/home/DashboardPreview";
+import { openBookDemo } from "@/components/forms/BookDemoModal";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 const stats = [
   { label: "Dashboards shipped", to: 180, suffix: "+" },
@@ -15,218 +16,135 @@ const stats = [
   { label: "Avg. build time", to: 3.5, decimals: 1, suffix: " wks" },
 ];
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
 export function Hero() {
-  const pathRef = useRef<SVGPathElement>(null);
-  const dotRef = useRef<SVGCircleElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) {
-      video.pause();
-    } else {
-      video.play().catch(() => {
-        /* autoplay can be blocked before user interaction; safe to ignore */
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    const path = pathRef.current;
-    const dot = dotRef.current;
-    if (!path || !dot) return;
-
-    const length = path.getTotalLength();
-    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
-    tl.to(path, {
-      strokeDashoffset: 0,
-      duration: 3.4,
-      ease: "power2.inOut",
-    });
-
-    // Manual point-follow (no MotionPathPlugin dependency): sample path each tick
-    const proxy = { d: 0 };
-    const dotTween = gsap.to(proxy, {
-      d: 1,
-      duration: 3.4,
-      repeat: -1,
-      repeatDelay: 0.8,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        const pt = path.getPointAtLength(proxy.d * length);
-        dot.setAttribute("cx", String(pt.x));
-        dot.setAttribute("cy", String(pt.y));
-      },
-    });
-
-    return () => {
-      tl.kill();
-      dotTween.kill();
-    };
-  }, []);
-
   return (
-    <section className="relative isolate overflow-hidden pb-24 pt-40 md:pt-48">
-      {/* Looping background video, softened through a white overlay */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover"
-          src="/videos/hero-b.mp4"
-          poster="/videos/hero-bg-poste.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-        />
-        {/* White wash so the footage reads as texture, not a distraction */}
-        <div className="absolute inset-0 bg-white/82" />
-        {/* Fade the video out completely toward the bottom so it blends into the page */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/60 to-white" />
-      </div>
+    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 lg:pt-44">
+      {/* Subtle background: soft grid + two low-key tints (no generic gradients) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-subtle"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[640px] bg-[radial-gradient(60%_50%_at_50%_0%,rgba(21,101,192,0.08),transparent)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.5] [background-image:linear-gradient(to_right,rgba(17,24,39,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(17,24,39,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_0%,black,transparent)]"
+      />
 
-      <div className="pointer-events-none absolute inset-0 z-[1] grid-canvas [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[560px] bg-radial-glow" />
-
-      <div className="container relative z-10">
+      <div className="container-page">
         <div className="mx-auto max-w-3xl text-center">
-          
-            
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease }}
+            className="flex justify-center"
+          >
+            <span className="eyebrow">
+              <Sparkles className="h-3.5 w-3.5" />
+              Power BI dashboards for finance teams
+            </span>
+          </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="mt-6 font-display text-4xl font-medium leading-[1.08] text-ink sm:text-6xl"
+            transition={{ duration: 0.7, delay: 0.06, ease }}
+            className="mt-6 text-balance text-display-1 font-bold tracking-tight text-ink"
           >
             Financial data, told as a{" "}
-            <span className="text-gradient italic">story worth acting on.</span>
+            <span className="relative whitespace-nowrap text-blue">
+              story worth acting on
+              <svg
+                aria-hidden
+                viewBox="0 0 318 12"
+                className="absolute -bottom-1 left-0 h-2.5 w-full text-blue/25"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M2 9C80 3 238 3 316 7"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            .
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.22, ease }}
-            className="mx-auto mt-6 max-w-xl text-balance text-base leading-relaxed text-mist sm:text-lg"
+            transition={{ duration: 0.7, delay: 0.14, ease }}
+            className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed text-mist"
           >
-            Fintech Services (FSR) designs and builds interactive Power BI
-            dashboards, executive reporting, and analytics solutions that turn
-            raw financial data into decisions your team can trust.
+            Fintech Services designs and builds interactive Power BI dashboards
+            and analytics solutions that turn raw financial data into decisions
+            your team can trust.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.34, ease }}
-            className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            transition={{ duration: 0.7, delay: 0.22, ease }}
+            className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <Button size="lg" asChild>
-              <Link href="/#cta">
-                <CalendarCheck className="h-4 w-4" /> Book a Demo
-              </Link>
+            <Button size="lg" onClick={openBookDemo} aria-haspopup="dialog">
+              <CalendarCheck className="h-4 w-4" /> Book a demo
             </Button>
-            <Button size="lg" variant="secondary" asChild>
+            <Button size="lg" variant="outline" asChild>
               <Link href="/templates">
-                Browse Templates <ArrowUpRight className="h-4 w-4" />
+                <Play className="h-4 w-4" /> Browse templates
               </Link>
             </Button>
           </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.32 }}
+            className="mt-4 text-xs text-mist"
+          >
+            No credit card required · 30-minute tailored walkthrough
+          </motion.p>
         </div>
 
-        {/* Animated dashboard canvas */}
+        {/* Dashboard preview */}
         <motion.div
-          initial={{ opacity: 0, y: 48 }}
+          initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.42, ease }}
-          whileHover={{ y: -4 }}
-          className="glass relative mx-auto mt-20 max-w-5xl overflow-hidden rounded-xl2 p-2 shadow-[0_40px_90px_-40px_rgba(20,22,31,0.35)] transition-shadow duration-500 hover:shadow-[0_50px_110px_-40px_rgba(255,90,31,0.28)]"
+          transition={{ duration: 0.9, delay: 0.28, ease }}
+          className="relative mx-auto mt-16 max-w-5xl"
         >
-          <div className="flex items-center gap-2 border-b border-line px-4 py-3">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#F2555F]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#F2B705]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-orange" />
-            <span className="ml-3 text-xs font-medium text-mist">
-              FSR Executive KPI Dashboard — Live Preview
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-px bg-line md:grid-cols-3">
-            {[
-              { label: "Total Revenue", value: "$4.82M", delta: "+12.4%" },
-              { label: "Gross Margin", value: "38.6%", delta: "+2.1pt" },
-              { label: "Open Pipeline", value: "$1.14M", delta: "+8.9%" },
-            ].map((s) => (
-              <div key={s.label} className="bg-white px-6 py-5">
-                <p className="text-xs uppercase tracking-wider text-mist">{s.label}</p>
-                <div className="mt-2 flex items-baseline gap-2">
-                  <span className="font-display text-2xl text-ink">{s.value}</span>
-                  <span className="text-xs font-semibold text-orange">{s.delta}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-white p-6">
-            <svg viewBox="0 0 800 220" className="h-[220px] w-full">
-              <defs>
-                <linearGradient id="hero-fill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FF5A1F" stopOpacity="0.22" />
-                  <stop offset="100%" stopColor="#FF5A1F" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <line
-                  key={i}
-                  x1="0"
-                  x2="800"
-                  y1={36 * i + 10}
-                  y2={36 * i + 10}
-                  stroke="rgba(20,22,31,0.06)"
-                />
-              ))}
-              <path
-                ref={pathRef}
-                d="M10,150 C80,140 120,60 200,80 C280,100 320,180 400,140 C480,100 520,40 600,60 C680,80 720,130 790,90"
-                fill="none"
-                stroke="#FF5A1F"
-                strokeWidth="3.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M10,150 C80,140 120,60 200,80 C280,100 320,180 400,140 C480,100 520,40 600,60 C680,80 720,130 790,90 L790,220 L10,220 Z"
-                fill="url(#hero-fill)"
-              />
-              <circle ref={dotRef} r="6" fill="#1B2437" stroke="#ffffff" strokeWidth="2" />
-            </svg>
+          <div className="absolute -inset-x-10 -top-8 -bottom-8 -z-10 rounded-[2rem] bg-gradient-to-b from-blue/5 to-transparent blur-2xl" />
+          <div className="rounded-2xl border border-line bg-white p-2 shadow-pop">
+            <DashboardPreview />
           </div>
         </motion.div>
 
-        <motion.div
+        {/* Stats */}
+        <motion.dl
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease }}
-          className="mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-6 text-center"
+          className="mx-auto mt-16 grid max-w-2xl grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-white"
         >
           {stats.map((s) => (
-            <div key={s.label}>
-              <p className="font-display text-2xl text-ink sm:text-3xl">
-                <CountUp to={s.to} suffix={s.suffix} decimals={s.decimals ?? 0} />
-              </p>
-              <p className="mt-1 text-xs text-mist sm:text-sm">{s.label}</p>
+            <div key={s.label} className="px-4 py-6 text-center">
+              <dt className="text-xs text-mist sm:text-sm">{s.label}</dt>
+              <dd className="mt-1.5 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                <CountUp
+                  to={s.to}
+                  suffix={s.suffix}
+                  decimals={s.decimals ?? 0}
+                />
+              </dd>
             </div>
           ))}
-        </motion.div>
+        </motion.dl>
       </div>
     </section>
   );

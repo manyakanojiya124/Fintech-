@@ -1,24 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Zap, LayoutTemplate, Repeat } from "lucide-react";
+import {
+  LayoutTemplate,
+  Zap,
+  ShieldCheck,
+  Repeat,
+  BarChart3,
+  Lock,
+} from "lucide-react";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const features = [
   {
     icon: LayoutTemplate,
-    title: "Built on proven templates",
-    body: "Start from a library of pre-built dashboard patterns instead of a blank canvas, cutting design time significantly.",
+    title: "Proven templates",
+    body: "Start from a library of battle-tested dashboard patterns instead of a blank canvas, cutting design time in half.",
   },
   {
     icon: Zap,
-    title: "Fast, iterative delivery",
+    title: "Iterative delivery",
     body: "Weekly review cycles keep stakeholders aligned, so the final dashboard matches how your team actually works.",
   },
   {
     icon: ShieldCheck,
-    title: "Governed & secure by design",
+    title: "Secure by design",
     body: "Row-level security, refresh schedules, and access controls are configured from day one, not bolted on later.",
   },
   {
@@ -26,41 +33,56 @@ const features = [
     title: "Built to evolve",
     body: "Clean semantic models and documented DAX mean new metrics and pages can be added without a rebuild.",
   },
+  {
+    icon: BarChart3,
+    title: "Executive-ready",
+    body: "Board-grade visual hierarchy and typography make every report feel considered, not exported.",
+  },
+  {
+    icon: Lock,
+    title: "Governed data",
+    body: "Single source of truth, certified datasets, and audit-ready lineage across every report you publish.",
+  },
 ];
 
 export function Features() {
   return (
-    <section className="relative border-y border-line bg-subtle/60 py-28">
-      <div className="container">
+    <section id="features" className="bg-white py-24">
+      <div className="container-page">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, ease }}
-          className="mx-auto mb-14 max-w-xl text-center"
+          className="mx-auto mb-14 max-w-2xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-navy">
-            How we work
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-medium text-ink sm:text-4xl">
-            A process built for finance teams.
+          <span className="eyebrow">Why teams choose us</span>
+          <h2 className="mt-4 text-display-2 font-bold tracking-tight text-ink">
+            One discipline, engineered end to end
           </h2>
+          <p className="mx-auto mt-4 max-w-xl text-mist">
+            Every engagement centers on Power BI dashboards that finance and
+            operations teams actually use — designed for clarity, built for
+            decisions.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.55, delay: i * 0.08, ease }}
-              className="group rounded-xl2 border border-line bg-white p-7 shadow-[0_20px_45px_-35px_rgba(20,22,31,0.2)] transition-all duration-500 hover:-translate-y-1.5 hover:border-orange/30 hover:shadow-[0_25px_55px_-30px_rgba(255,90,31,0.28)]"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: i * 0.06, ease }}
+              className="group rounded-xl3 border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-soft text-orange transition-colors group-hover:bg-orange group-hover:text-white">
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-blue-50 text-blue transition-colors group-hover:bg-blue group-hover:text-white">
                 <f.icon className="h-5 w-5" />
               </div>
-              <h3 className="mt-5 font-display text-lg text-ink">{f.title}</h3>
+              <h3 className="mt-5 text-base font-semibold tracking-tight text-ink">
+                {f.title}
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-mist">{f.body}</p>
             </motion.div>
           ))}

@@ -1,58 +1,61 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
+/**
+ * Lightweight count-up that triggers when scrolled into view.
+ * No animation library required.
+ */
 export function CountUp({
-  from = 0,
   to,
   decimals = 0,
   suffix = "",
   prefix = "",
+  duration = 1400,
   className,
 }: {
-  from?: number;
   to: number;
   decimals?: number;
   suffix?: string;
   prefix?: string;
+  duration?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
+  const [val, setVal] = useState(0);
+  const started = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const proxy = { val: from };
-    const tween = gsap.to(proxy, {
-      val: to,
-      duration: 1.6,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 88%",
-        once: true,
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !started.current) {
+          started.current = true;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const p = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            setVal(to * eased);
+            if (p < 1) requestAnimationFrame(tick);
+            else setVal(to);
+          };
+          requestAnimationFrame(tick);
+        }
       },
-      onUpdate: () => {
-        el.textContent = `${prefix}${proxy.val.toFixed(decimals)}${suffix}`;
-      },
-    });
-
-    return () => {
-      tween.kill();
-    };
-  }, [from, to, decimals, suffix, prefix]);
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [to, duration]);
 
   return (
     <span ref={ref} className={className}>
       {prefix}
-      {from.toFixed(decimals)}
+      {val.toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
       {suffix}
     </span>
   );

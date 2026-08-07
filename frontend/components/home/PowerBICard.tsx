@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   BarChart3,
@@ -9,11 +8,9 @@ import {
   LineChart,
   Calculator,
   Boxes,
-  ArrowUpRight,
-  CalendarCheck,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 const capabilities = [
   { icon: BarChart3, label: "Interactive Power BI Dashboards" },
@@ -21,88 +18,118 @@ const capabilities = [
   { icon: Gauge, label: "Executive KPI Dashboards" },
   { icon: LineChart, label: "Sales Analytics" },
   { icon: Calculator, label: "Accounting Analytics" },
-  { icon: Boxes, label: "Business Intelligence Solutions" },
+  { icon: Boxes, label: "Business Intelligence" },
 ];
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 export function PowerBICard() {
   return (
-    <section id="services" className="relative py-28">
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease }}
-          className="mx-auto mb-14 max-w-2xl text-center"
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange">
-            What we build
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-medium text-ink sm:text-4xl">
-            One discipline, mastered end to end.
-          </h2>
-          <p className="mt-4 text-mist">
-            Every engagement centers on one thing: Power BI dashboards that
-            finance and operations teams actually use.
-          </p>
-        </motion.div>
+    <section id="services" className="bg-white py-24">
+      <div className="container-page">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease }}
+          >
+            <span className="eyebrow">Featured service</span>
+            <h2 className="mt-4 text-display-2 font-bold tracking-tight text-ink">
+              Power BI dashboard &amp; analytics solutions
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-mist">
+              From first data model to boardroom-ready report, we design and
+              build Power BI solutions that make financial performance visible,
+              explorable, and easy to act on.
+            </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 36 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease }}
-          whileHover={{ y: -3 }}
-          className="relative mx-auto max-w-4xl overflow-hidden rounded-xl2 border border-line bg-gradient-to-br from-subtle to-white p-8 shadow-[0_30px_70px_-45px_rgba(20,22,31,0.25)] transition-shadow duration-500 hover:shadow-[0_40px_90px_-40px_rgba(255,90,31,0.22)] sm:p-12"
-        >
-          <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-orange/15 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-navy/8 blur-3xl" />
-
-          <div className="relative flex flex-col gap-10 md:flex-row md:items-center">
-            <div className="md:w-1/2">
-              <Badge tone="navy">Featured Service</Badge>
-              <h3 className="mt-4 font-display text-2xl text-ink sm:text-3xl">
-                Power BI Dashboard &amp; Analytics Solutions
-              </h3>
-              <p className="mt-4 text-sm leading-relaxed text-mist sm:text-base">
-                From first data model to boardroom-ready report, we design
-                and build Power BI solutions that make financial performance
-                visible, explorable, and easy to act on.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild>
-                  <Link href="/templates">
-                    Learn More <ArrowUpRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button variant="secondary" asChild>
-                  <Link href="/#cta">
-                    <CalendarCheck className="h-4 w-4" /> Book a Demo
-                  </Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:w-1/2">
-              {capabilities.map((c, i) => (
-                <motion.div
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {capabilities.map((c) => (
+                <div
                   key={c.label}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.06, ease }}
-                  className="flex items-center gap-3 rounded-xl border border-line bg-white px-4 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-orange/30 hover:bg-orange-soft hover:shadow-[0_10px_24px_-12px_rgba(255,90,31,0.3)]"
+                  className="flex items-center gap-3 rounded-xl border border-line bg-white px-4 py-3 transition-colors hover:border-blue/30 hover:bg-blue-50/40"
                 >
-                  <c.icon className="h-4.5 w-4.5 shrink-0 text-orange" />
-                  <span className="text-sm font-medium text-ink">{c.label}</span>
-                </motion.div>
+                  <c.icon className="h-4.5 w-4.5 shrink-0 text-blue" />
+                  <span className="text-sm font-medium text-ink">
+                    {c.label}
+                  </span>
+                </div>
               ))}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.1, ease }}
+            className="relative"
+          >
+            <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-blue/5 to-transparent blur-2xl" />
+            <div className="card overflow-hidden">
+              <div className="border-b border-line bg-subtle/60 px-5 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  <span className="ml-3 text-xs font-medium text-mist">
+                    financial-summary.pbix
+                  </span>
+                </div>
+              </div>
+              <div className="space-y-4 p-5">
+                <div className="grid grid-cols-3 gap-3">
+                  {["Revenue", "EBIT", "Margin"].map((label, i) => (
+                    <div
+                      key={label}
+                      className="rounded-xl border border-line p-3"
+                    >
+                      <p className="text-[10px] uppercase tracking-wider text-mist">
+                        {label}
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-ink">
+                        {["$4.82M", "$1.24M", "38.6%"][i]}
+                      </p>
+                      <div className="mt-2 h-1.5 rounded-full bg-subtle">
+                        <div
+                          className="h-1.5 rounded-full bg-blue"
+                          style={{ width: ["78%", "62%", "54%"][i] }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="rounded-xl border border-line p-4">
+                  <div className="mb-3 flex items-center justify-between text-xs">
+                    <span className="font-medium text-ink">
+                      Revenue vs budget
+                    </span>
+                    <span className="text-mist">Last 8 months</span>
+                  </div>
+                  <div className="flex items-end gap-2" style={{ height: 120 }}>
+                    {[46, 62, 54, 78, 70, 88, 82, 96].map((h, i) => (
+                      <div key={i} className="flex flex-1 flex-col gap-1">
+                        <div
+                          className="w-full rounded-t bg-blue"
+                          style={{ height: `${h}%` }}
+                        />
+                        <div
+                          className="w-full rounded-b bg-line"
+                          style={{ height: `${100 - h}%` }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between rounded-xl bg-subtle px-4 py-3 text-xs text-mist">
+                  <span>Refreshed 2 minutes ago</span>
+                  <span className="font-semibold text-emerald-600">
+                    ● Connected
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

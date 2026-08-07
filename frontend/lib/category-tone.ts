@@ -1,16 +1,18 @@
 import type { Category } from "@/lib/templates-data";
 
-const toneMap: Record<Category, "orange" | "navy" | "slate"> = {
-  Sales: "orange",
-  Marketing: "orange",
-  HR: "orange",
-  Accounting: "navy",
-  Banking: "navy",
-  Operations: "slate",
-  Retail: "slate",
-  Media: "slate",
+type Tone = "blue" | "red" | "neutral";
+
+const toneMap: Record<Category, Tone> = {
+  Sales: "blue",
+  Marketing: "red",
+  HR: "neutral",
+  Accounting: "blue",
+  Banking: "blue",
+  Operations: "neutral",
+  Retail: "red",
+  Media: "neutral",
 };
 
-export function categoryTone(category: Category) {
+export function categoryTone(category: Category): Tone {
   return toneMap[category] ?? "neutral";
 }
