@@ -40,44 +40,9 @@ export const templates: DashboardTemplate[] = [
       "Used by sales operations to run weekly pipeline reviews and spot where deals are stalling before they're lost.",
     technologies: ["Power BI", "DAX", "CRM Connector", "Power Query"],
   },
-  {
-    slug: "sales-customer-profiling",
-    title: "Sales Customer Profiling",
-    category: "Sales",
-    image: "/templates/sales-customer-profiling.jpg",
-    description:
-      "Segment customers by purchase behavior and track invoice trends over a rolling three-year window.",
-    longDescription:
-      "Built for teams that need to understand not just how much customers are buying, but who they are. A rolling time comparison sits above a customer segmentation view that plots total sales against purchase frequency, making it easy to spot which segments are quietly becoming the most valuable.",
-    features: [
-      "Rolling multi-year sales trend with period comparison",
-      "Sales breakdown by product group",
-      "Customer segmentation by spend vs. purchase frequency",
-      "Ranked customer table by invoice total",
-    ],
-    useCase:
-      "Used by account management teams to identify upsell candidates and flag high-value customers drifting toward churn.",
-    technologies: ["Power BI", "DAX", "SQL Server", "Power Query"],
-  },
-  {
-    slug: "inquiry-analysis",
-    title: "Sales Inquiry & Quote Analysis",
-    category: "Sales",
-    image: "/templates/inquiry-analysis.jpg",
-    description:
-      "Track quote response times and win/loss outcomes from first inquiry to close.",
-    longDescription:
-      "Every inquiry is followed from creation through to a won, lost, or still-open outcome, with response time tracked at every stage. Breakdowns by hour, weekday, and employee make it easy to see when the team is fastest to respond — and when quotes are quietly going cold.",
-    features: [
-      "Inquiry status timeline with won / open / lost value in EUR",
-      "Average response time by hour and day of week",
-      "Funnel view from created to resolved by stage",
-      "Inquiry volume by category and employee",
-    ],
-    useCase:
-      "Used by sales managers to coach reps on response speed and protect quote win rates.",
-    technologies: ["Power BI", "DAX", "Power Automate", "SQL Server"],
-  },
+
+  
+  
   {
     slug: "used-car-sales",
     title: "Used Car Sales Analysis",
@@ -116,63 +81,7 @@ export const templates: DashboardTemplate[] = [
       "Presented monthly to the board as the single source of truth for financial performance.",
     technologies: ["Power BI", "DAX", "ERP Connector", "SQL Server"],
   },
-  {
-    slug: "invoice-explorer",
-    title: "Invoice Explorer",
-    category: "Accounting",
-    image: "/templates/invoice-explorer.jpg",
-    description:
-      "Search and filter every invoice by amount, status, and location in one live table.",
-    longDescription:
-      "A searchable invoice register that pairs a step-chart of paid, overdue, and future-due amounts with a world map of where revenue is actually coming from. Filtering by invoice amount or free-text search narrows the detail table instantly, no exports required.",
-    features: [
-      "Free-text search across invoice number and company",
-      "Filter by invoice amount range with a live slider",
-      "Paid / overdue / due-in-future breakdown by year",
-      "Geographic breakdown of invoice value by country",
-    ],
-    useCase:
-      "Used by accounts receivable teams as their daily working view instead of exporting to Excel.",
-    technologies: ["Power BI", "DAX", "ERP Connector", "Power Query"],
-  },
-  {
-    slug: "revenue-vs-budget",
-    title: "Revenue vs Budget Tracker",
-    category: "Accounting",
-    image: "/templates/revenue-vs-budget.jpg",
-    description:
-      "Compare actual revenue against budget and forecast, broken down by channel and product.",
-    longDescription:
-      "Budget completion is tracked to the percentage point, with forecast and actuals layered onto the same chart so the gap is impossible to miss. Channel and product breakdowns explain the 'why' behind any variance, down to individual months.",
-    features: [
-      "Revenue vs. budget vs. forecast, month by month",
-      "Budget completion % and year-over-year growth",
-      "Revenue vs. budget broken down by channel",
-      "Revenue vs. budget broken down by product",
-    ],
-    useCase:
-      "Used in monthly budget review meetings to explain variance to department heads and finance leadership.",
-    technologies: ["Power BI", "DAX", "Excel Integration", "SQL Server"],
-  },
-  {
-    slug: "debtor-analysis",
-    title: "Debtor & Receivables Analysis",
-    category: "Accounting",
-    image: "/templates/debtor-analysis.jpg",
-    description:
-      "Outstanding invoice exposure by age, geography, and product, with overdue amounts flagged.",
-    longDescription:
-      "Outstanding balances are split into overdue, due-in-future, and due-this-month buckets and plotted against revenue to give a true sense of collection risk. A world map of debtor concentration makes it obvious where exposure is building fastest.",
-    features: [
-      "Outstanding amount as a % of trailing 12-month revenue",
-      "Overdue, due-in-future, and due-this-month breakdown",
-      "Debtor concentration by country on a live map",
-      "Breakdown by payment status, invoice type, and product",
-    ],
-    useCase:
-      "Used weekly by the credit control team to prioritize collections calls by exposure size.",
-    technologies: ["Power BI", "DAX", "ERP Connector", "SQL Server"],
-  },
+
   {
     slug: "marketing-campaign-analysis",
     title: "Marketing Campaign Performance",
